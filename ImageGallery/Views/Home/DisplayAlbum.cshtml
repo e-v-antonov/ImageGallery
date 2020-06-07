@@ -1,0 +1,76 @@
+﻿@{
+    ViewData["Title"] = "Просмотр альбома";
+}
+
+<h1>@ViewData["NameAlbum"]</h1>
+
+<hr />
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 mb-4">
+            <label>Описание альбома</label>
+            <textarea class="form-control" disabled title="Описание альбома">@ViewData["DescriptionAlbum"]</textarea>
+        </div>
+        <hr />
+        <div class="col-md-3 text-center">
+            <a href="@Url.Action("Create", "Media")">
+                <input type="submit" value="Добавить изображение" class="btn btn-primary" title="Добавить изображение в альбом"/>
+            </a>
+        </div>
+        <div class="col-md-3 text-center">
+            <a href="@Url.Action("Edit", "Category", new { id = ViewData["IdAlbum"] })">
+                <input type="submit" value="Изменить альбом" class="btn btn-primary" title="Изменить альбом"/>
+            </a>
+        </div>
+        <div class="col-md-3 text-center">
+            <a href="@Url.Action("Delete", "Category", new { id = ViewData["IdAlbum"] })">
+                <input type="submit" value="Удалить альбом" class="btn btn-primary" title="Удалить альбом и фотографии"/>
+            </a>
+        </div>
+        <div class="col-md-3 text-center">
+            @using (Html.BeginForm("DownloadImageFile", "Home", FormMethod.Post))
+            {
+                @Html.Hidden("idAlbum", ViewData["IdAlbum"])
+                <input type="submit" value="Скачать альбом" class="btn btn-primary" title="Скачать альбом себе"/>
+            }
+        </div>
+    </div>
+    <hr />
+    <div class="row">        
+        @foreach (var item in Model)
+        {
+            string fullPath = System.IO.Path.Combine("wwwroot", "uploads", item.ImagePath);
+            byte[] imageArray = System.IO.File.ReadAllBytes(fullPath);
+            string base64Image = Convert.ToBase64String(imageArray);
+
+            int indexDot = item.ImagePath.LastIndexOf('.');
+            string fileExtension = item.ImagePath.Substring(indexDot + 1);
+
+            <div class="col-md-4">
+                <div class="row justify-content-center">
+                    <a href="@("/uploads/" + item.ImagePath)" target="_parent">
+                        <img src="@("data:image/" + fileExtension + ";base64," + base64Image)" alt="@item.ImagePath" class="img-thumbnail" style="max-height: 265px" title="@item.ImagePath"/>                        
+                    </a>                  
+                </div>
+                <div class="row" style="margin-bottom: 20px; margin-top: 5px">
+                    <div class="col-4 justify-content-center">
+                        <a href="@Url.Action("Index", "UpdateImage", new { id = item.Id })">
+                            <img src="~/ico_gears.png" title="Редактировать изображение"/>
+                        </a>
+                    </div>
+                    <div class="col-4 text-center">
+                        <a href="@Url.Action("DownloadImage", "Media", new { id = item.Id })">
+                            <img src="~/ico_download.png" title="Скачать изображение"/>
+                        </a>
+                    </div>
+                    <div class="col-4 text-center">
+                        <a href="@Url.Action("Delete", "Media", new { id = item.Id })">
+                            <img src="~/ico_delete.png" title="Удалить изображение" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

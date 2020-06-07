@@ -1,0 +1,75 @@
+﻿@model ImageGallery.ViewModels.AccountModel.UserEditViewModel
+
+@{
+    ViewData["Title"] = "Изменение данных пользователя";
+}
+
+<link rel="stylesheet" href="~/css/easydropdown.css" />
+<script src="~/js/jquery.easydropdown.js"></script>
+
+<h1>
+    Изменение данных пользователя
+</h1>
+
+<hr />
+
+<div class="container">
+    <div class="row">
+        <form class="col-md-6 was-validated" novalidate asp-action="EditUser" asp-controller="Account" asp-anti-forgery="true">
+            <div class="validation text-danger" asp-validation-summary="ModelOnly"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group row">
+                <label for="surname" class="col-sm-3 col-form-label">Фамилия</label>
+                <div class="col-sm-9">
+                    <input asp-for="Surname" type="text" class="form-control is-invalid" id="surname" required autocomplete="off">
+                    <span class="text-danger" asp-validation-for="Surname"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="name" class="col-sm-3 col-form-label">Имя</label>
+                <div class="col-sm-9">
+                    <input asp-for="Name" type="text" class="form-control is-invalid" id="name" required autocomplete="off">
+                    <span class="text-danger" asp-validation-for="Name"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="patronymic" class="col-sm-3 col-form-label">Отчество</label>
+                <div class="col-sm-9">
+                    <input asp-for="Patronymic" type="text" class="form-control is-valid" id="patronymic" autocomplete="off">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="login" class="col-sm-3 col-form-label">Логин</label>
+                <div class="col-sm-9">
+                    <input asp-for="Login" type="text" class="form-control is-invalid" id="login" aria-describedby="loginHelpBlock" required autocomplete="off">
+                    <span class="text-danger" asp-validation-for="Login"></span>
+                    <small id="loginHelpBlock" class="form-text text-muted">
+                        Логин должен быть длиной 8-16 символов, содержать только английские буквы и цифры.
+                    </small>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="password" class="col-sm-3 col-form-label">Пароль</label>
+                <div class="col-sm-9">
+                    <input asp-for="Password" type="text" class="form-control is-invalid" id="password" aria-describedby="passwordHelpBlock" required>
+                    <span class="text-danger" asp-validation-for="Password"></span>
+                    <small id="passwordHelpBlock" class="form-text text-muted">
+                        Пароль должен быть длиной 8-16 символов, содержать буквы и цифры, а также специальные символы и не должен содержать пробелов.
+                    </small>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="role" class="col-sm-3 col-form-label is-valid">Роль пользователя</label>
+                <div class="col-sm-9">
+                    <select class="dropdown" asp-for="RoleId" asp-items="@(new SelectList(ViewBag.Roles, "Id", "NameRole", Model.RoleId))" id="role">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-9">
+                    <button type="submit" class="btn btn-primary" title="Изменить данные пользователя">Изменить</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

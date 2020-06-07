@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Статистика";
+}
+
+<h1>
+    Статистика
+</h1>
+
+<hr />
+
+<div class="container">
+    <div class="row mb-2">
+        <div class="col-md-4 text-center">
+            <button class="btn btn-primary" id="click-count-user" title="Кол-во альбомов у пользователей">Альбомы пользователей</button>
+        </div>
+        <div class="col-md-4 text-center">
+            <button class="btn btn-primary" id="click-count-album" title="Кол-во создания альбомов по датам">Альбомы по датам</button>
+        </div>
+        <div class="col-md-4 text-center">
+            <button class="btn btn-primary" id="click-count-media" title="Кол-во изображений у пользователей">Изображения пользователей</button>
+        </div>
+    </div>
+    <div id="count-user-albums" style="display: none">@{await Html.RenderPartialAsync("_CountUserAlbums");}</div>
+    <div id="count-album-bydate" style="display: none">@{await Html.RenderPartialAsync("_CountAlbumByDate");}</div>
+    <div id="count-media-user" style="display: none">@{await Html.RenderPartialAsync("_CountMediaUser");}</div>
+</div>
+
+<script>
+     window.onload = function () {
+         document.getElementById("click-count-user").onclick = isClickCountUser;
+         document.getElementById("click-count-album").onclick = isClickCountAlbum;
+         document.getElementById("click-count-media").onclick = isClickCountMedia;
+    }
+
+    function isClickCountUser() {
+        $('#count-user-albums').show();
+        $('#count-album-bydate').hide();
+        $('#count-media-user').hide();
+    }
+
+    function isClickCountAlbum() {
+        $('#count-album-bydate').show();
+        $('#count-user-albums').hide();
+        $('#count-media-user').hide();
+    }
+
+    function isClickCountMedia() {
+        $('#count-media-user').show();
+        $('#count-user-albums').hide();
+        $('#count-album-bydate').hide();
+    }
+</script>

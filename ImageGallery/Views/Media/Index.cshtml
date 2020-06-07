@@ -1,0 +1,66 @@
+﻿@model ImageGallery.ViewModels.MediaViewModels.MediaIndexViewModel;
+@addTagHelper *, ImageGallery
+
+@{
+    ViewData["Title"] = "Список изображений";
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+<form class="mb-3">
+    <button asp-action="Create" class="btn btn-primary" title="Загрузить новое изображение">Загрузить изображение</button>
+</form>
+
+<div class="container">
+    <div class="row">
+        <form class="form-inline mb-3">
+            <label>Фильтрация по:</label>
+            <div class="form-group mx-2">
+                <input type="text" class="form-control" name="SearchString" value="@ViewData["CurrentFilter"]" autocomplete="off">
+            </div>
+            <input type="submit" class="btn btn-outline-dark mr-2" value="Поиск" title="Поиск по введенным данным"/>
+            <div>|</div>
+            <a asp-action="Index" class="ml-2">Полный список</a>
+        </form>
+
+        <table class="table table-striped table-bordered table_sort">
+            <thead>
+                <tr>
+                    <th class="text-center align-content-center" scope="col">
+                        <a asp-action="Index" asp-route-sortOrder="@ViewData["ImagePathSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                            Название изображения
+                        </a>
+                    </th>
+                    <th class="text-center align-content-center" scope="col">
+                        <a asp-action="Index" asp-route-sortOrder="@ViewData["CategorySortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                            Альбом
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Medias)
+                {
+                    <tr>
+                        <td class="text-center">
+                            @Html.DisplayFor(modelItem => item.ImagePath)
+                        </td>
+                        <td class="text-center">
+                            @Html.DisplayFor(modelItem => item.CategoryTitle)
+                        </td>
+                        <td class="text-center align-content-center">
+                            <a asp-controller="UpdateImage" asp-action="Index" asp-route-id="@item.Id">Посмотреть</a>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Изменить</a>
+                            <a asp-action="DownloadImage" asp-route-id="@item.Id">Скачать</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+
+        <page-link page-model="Model.PaginatedList" page-action="Index"
+                   page-url-sortOrder="@ViewData["CurrentSort"]"
+                   page-url-currentFilter="@ViewData["CurrentFilter"]"></page-link>
+    </div>
+</div>

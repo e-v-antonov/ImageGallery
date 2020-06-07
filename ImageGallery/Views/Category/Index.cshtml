@@ -1,0 +1,58 @@
+﻿@model ImageGallery.ViewModels.CategoryViewModels.CategoryIndexViewModel;
+@addTagHelper *, ImageGallery
+
+@{
+    ViewData["Title"] = "Список альбомов";
+}
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+<form class="mb-3">
+    <button asp-action="Create" class="btn btn-primary" title="Создание нового альбома">Создать альбом</button>
+</form>
+
+<div class="container">
+    <div class="row">
+        <form class="form-inline mb-3">
+            <label>Фильтрация по:</label>
+            <div class="form-group mx-2">
+                <input type="text" class="form-control" name="SearchString" value="@ViewData["CategoryCurrentFilter"]" autocomplete="off">
+            </div>
+            <input type="submit" class="btn btn-outline-dark mr-2" value="Поиск" title="Поиск по введенным данным"/>
+            <div>|</div> 
+            <a asp-action="Index" class="ml-2">Полный список</a>        
+        </form>
+
+        <table class="table table table-striped table-bordered table_sort">
+            <thead>
+                <tr>
+                    <th class="text-center align-content-center" scope="col">
+                        <a asp-action="Index" asp-route-sortOrder="@ViewData["TitleCategorySortParm"]"
+                           asp-route-currentFilter="@ViewData["CategoryCurrentFilter"]">Название альбома</a>
+                    </th>
+                    <th class="text-center align-content-center" scope="col">
+                        <a asp-action="Index" asp-route-sortOrder="@ViewData["TimeCreateAlbumSortParm"]"
+                           asp-route-currentFilter="@ViewData["CategoryCurrentFilter"]">Дата создания</a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Categories)
+                {
+                    <tr>
+                        <td class="text-center">@item.Title</td>
+                        <td class="text-center">@item.TimeCreateAlbum.ToString("d")</td>
+                        <td class="text-center">
+                            <a asp-action="Edit" asp-route-id="@item.Id">Изменить</a> 
+                            <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>                    
+        </table>
+
+        <page-link page-model="Model.PaginatedList" page-action="Index"
+                   page-url-sortOrder="@ViewData["CategoryCurrentSort"]"
+                   page-url-currentFilter="@ViewData["CategoryCurrentFilter"]"></page-link>
+    </div>
+</div>

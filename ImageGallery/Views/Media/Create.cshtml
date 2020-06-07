@@ -1,0 +1,68 @@
+﻿@model ImageGallery.ViewModels.MediaViewModels.MediaCreateViewModel
+
+@{
+    ViewData["Title"] = "Добавление изображения";
+}
+
+<link rel="stylesheet" href="~/css/easydropdown.css" />
+<link rel="stylesheet" href="~/css/upload-media.css"/>
+
+<h1>Добавление изображения</h1>
+
+<hr />
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Create" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="Files" class="control-label">Выберите файлы</label>
+
+                    <div class="field__wrapper">
+                        <input asp-for="Files" type="file" id="field__file-upload" class="field field__file" multiple>
+                        <label class="field__file-wrapper" for="field__file-upload">
+                            <div class="field__file-fake">Файл не выбран</div>
+                            <div class="field__file-button" title="Выбрать изображение">Выбрать</div>
+                        </label>
+                    </div>
+
+                    <span asp-validation-for="Files" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="CategoryId" class="control-label">Выберите альбом для загрузки</label>
+                    <select class="dropdown" data-settings="{cutOff: 5}" asp-for="CategoryId" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Title"))">
+                        <option class="label"></option>
+                    </select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Загрузить" class="btn btn-primary" title="Загрузить изображение в систему"/>
+                </div>
+            </form>
+            <p>Выбранные изображения:</p>
+        </div>
+    </div>
+        
+    <div class="row" id="img-preview">
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-6">
+            <a asp-action="Index">Назад к списку</a>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js" type="text/javascript"></script>
+<script src="~/js/diplay-media.js"></script>
+<script src="~/js/count-media.js"></script>
+<script src="~/js/jquery.easydropdown.js"></script>
+<script src="~/js/PreviewImage.js" type="text/javascript"></script>
+
+@section Scripts{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

@@ -1,0 +1,57 @@
+﻿@model ImageGallery.ViewModels.CategoryViewModels.CreateCategoryViewModel
+
+@{
+    ViewData["Title"] = "Создание альбома";
+}
+
+<h1>Создание альбома</h1>
+
+<hr />
+
+<div class="container">
+    <div class="row">
+        <form asp-action="Create" class="col-md-10 was-validated">
+            <div class="validation text-danger" asp-validation-summary="ModelOnly"></div>
+            <div class="form-group row">
+                <label for="title" class="col-md-4 col-form-label">Название альбома</label>
+                <div class="col-md-8">
+                    <input asp-for="Title" type="text" class="form-control is-invalid" id="title" required autocomplete="off">
+                    <span class="text-danger" asp-validation-for="Title"></span>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="description-album" class="col-md-4 col-form-label">Описание альбома</label>
+                <div class="col-md-8">
+                    <textarea asp-for="DescriptionAlbum" class="form-control" id="description-album" maxlength="150"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-4">Доступность альбома</div>
+                <div class="col-md-8">
+                    <div class="form-check">
+                        <input asp-for="SharedAlbum" class="form-check-input" type="checkbox" id="shared-album" title="Доступ к альбому имеют все">
+                        <label class="form-check-label" for="shared-album">
+                            Всем
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-10">
+                    <button type="submit" class="btn btn-primary" title="Создать новый альбом">Создать</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div>
+        <a asp-action="Index">Назад к списку</a>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

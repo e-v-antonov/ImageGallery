@@ -1,0 +1,84 @@
+﻿@model ImageGallery.ViewModels.AccountModel.UserIndexViewModel;
+@addTagHelper *, ImageGallery
+
+@{
+    ViewData["Title"] = "Список польззователей";
+}
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+<form class="mb-3">
+    <button asp-action="CreateUser" class="btn btn-primary" title="Добавить пользователя в систему">Добавить пользователя</button>
+</form>
+
+<div class="container">
+    <div class="row">
+        <form class="form-inline mb-3">
+            <label>Фильтрация по:</label>
+            <div class="form-group mx-2">
+                <input type="text" class="form-control" name="SearchString" value="@ViewData["UserCurrentFilter"]" autocomplete="off">
+            </div>
+            <input type="submit" class="btn btn-outline-dark mr-2" value="Поиск" title="Поиск по введенным данным"/>
+            <div>|</div>
+            <a asp-action="UserIndex" class="ml-2">Полный список</a>
+        </form>
+
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th class="text-center" scope="col">
+                        <a asp-action="UserIndex" asp-route-sortOrder="@ViewData["SurnameUserSortParm"]"
+                           asp-route-currentFilter="@ViewData["UserCurrentFilter"]">Фамилия</a>
+                    </th>
+                    <th class="text-center" scope="col">
+                        <a asp-action="UserIndex" asp-route-sortOrder="@ViewData["NameUserSortParm"]"
+                           asp-route-currentFilter="@ViewData["UserCurrentFilter"]">Имя</a>
+                    </th>
+                    <th class="text-center" scope="col">
+                        <a asp-action="UserIndex" asp-route-sortOrder="@ViewData["PatronymicUserSortParm"]"
+                           asp-route-currentFilter="@ViewData["UserCurrentFilter"]">Отчество</a>
+                    </th>
+                    <th class="text-center" scope="col">
+                        <a asp-action="UserIndex" asp-route-sortOrder="@ViewData["LoginUserSortParm"]"
+                           asp-route-currentFilter="@ViewData["UserCurrentFilter"]">Логин</a>
+                    </th>
+                    <th class="text-center" scope="col">
+                        <a asp-action="UserIndex" asp-route-sortOrder="@ViewData["RoleUserSortParm"]"
+                           asp-route-currentFilter="@ViewData["UserCurrentFilter"]">Роль пользователя</a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Users)
+                {
+                    <tr>
+                        <td class="text-center">
+                            @Html.DisplayFor(modelItem => item.Surname)
+                        </td>
+                        <td class="text-center">
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td class="text-center">
+                            @Html.DisplayFor(modelItem => item.Patronymic)
+                        </td>
+                        <td class="text-center">
+                            @Html.DisplayFor(modelItem => item.Login)
+                        </td>
+                        <td class="text-center">
+                            @Html.DisplayFor(modelItem => item.Role.NameRole)
+                        </td>
+                        <td class="text-center">
+                            <a asp-action="EditUser" asp-route-id="@item.Id" title="Изменить данные пользователя">Изменить</a> |
+                            <a asp-action="DeleteUser" asp-route-id="@item.Id" title="Удалить пользователя из системы">Удалить</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <page-link page-model="Model.PaginatedList" page-action="UserIndex"
+                   page-url-sortOrder="@ViewData["UserCurrentSort"]"
+                   page-url-currentFilter="@ViewData["UserCurrentFilter"]"></page-link>
+    </div>
+</div>
+

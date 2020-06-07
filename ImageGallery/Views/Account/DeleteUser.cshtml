@@ -1,0 +1,51 @@
+﻿@model ImageGallery.ViewModels.AccountModel.UserViewModel
+
+@{
+    ViewData["Title"] = "Удаление пользователя";
+}
+
+<h1>Удаление пользователя</h1>
+
+<h3>Вы действительно хотите удалить пользователя, а также все его альбомы и загруженные изображения?</h3>
+<div>
+    <hr />
+    <div class="validation text-danger" asp-validation-summary="ModelOnly"></div>
+    <dl class="row">
+        <dt class="col-sm-3">
+            Фамилия пользователя:
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Surname)
+        </dd>
+        <dt class="col-sm-3">
+            Имя пользователя:
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-3">
+            Отчество пользователя:
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Patronymic)
+        </dd>
+        <dt class="col-sm-3">
+            Логин пользователя:
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Login)
+        </dd>
+        <dt class="col-sm-3">
+            Роль пользователя:
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Role.NameRole)
+        </dd>
+    </dl>
+
+    <form asp-action="DeleteUser">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Удалить" class="btn btn-danger" title="Удалить пользователя из системы" /> |
+        <a asp-action="UserIndex">Назад к списку</a>
+    </form>
+</div>
